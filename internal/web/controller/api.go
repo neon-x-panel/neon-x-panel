@@ -206,6 +206,8 @@ func (a *APIController) initRouter(g *gin.RouterGroup) {
 	a.xraySettingController = NewXraySettingController(api)
 
 	// Subscription balancers — client-side balancers for the JSON sub output
+	NewAdminController(api.Group("/admins"))
+	NewAdminRoleController(api.Group("/admin-roles"))
 	NewSubBalancerController(api)
 
 	// Extra routes

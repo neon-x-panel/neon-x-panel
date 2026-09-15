@@ -1247,6 +1247,72 @@ func seedRandomSubscriptionPaths() error {
 	})
 }
 
+
+func seedRBACDefaults() error {
+	const seederName = "RBACRolesAndOwner"
+
+	return db.Transaction(func(tx *gorm.DB) error {
+		roleIDs := make(map[string]int)
+
+		for _, role := range model.DefaultAdminRoles() {
+			var existing model.AdminRole
+			err := tx.Where("slug = ?", role.Slug).First(&existing).Error
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				if err := tx.Create(&role).Error; err != nil {
+					return err
+				}
+				existing = role
+			} else if err != nil {
+				return err
+			}
+
+			roleIDs[existing.Slug] = existing.Id
+		}
+
+		ownerRoleID := roleIDs[model.AdminRoleSlugOwner]
+		adminRoleID := roleIDs[model.AdminRoleSlugAdministrator]
+		if ownerRoleID == 0 || adminRoleID == 0 {
+			return fmt.Errorf("rbac seed failed: missing default role ids")
+		}
+
+		var users []model.User
+		if err := tx.Order("id ASC").Find(&users).Error; err != nil {
+			return err
+		}
+
+		for i, user := range users {
+			updates := map[string]any{}
+
+			if strings.TrimSpace(user.Status) == "" {
+				updates["status"] = model.AdminStatusActive
+			}
+
+			if user.RoleId == 0 {
+				if i == 0 {
+					updates["role_id"] = ownerRoleID
+				} else {
+					updates["role_id"] = adminRoleID
+				}
+			}
+
+			if len(updates) == 0 {
+				continue
+			}
+
+			if err := tx.Model(&model.User{}).
+				Where("id = ?", user.Id).
+				Updates(updates).
+				Error; err != nil {
+				return err
+			}
+		}
+
+		return tx.Where("seeder_name = ?", seederName).
+			FirstOrCreate(&model.HistoryOfSeeders{SeederName: seederName}).
+			Error
+	})
+}
+
 func runSeeders(isUsersEmpty bool) error {
 	empty, err := isTableEmpty("history_of_seeders")
 	if err != nil {
@@ -1268,6 +1334,17 @@ func runSeeders(isUsersEmpty bool) error {
 	if err := db.Model(&model.HistoryOfSeeders{}).Pluck("seeder_name", &seedersHistory).Error; err != nil {
 		log.Printf("Error fetching seeder history: %v", err)
 		return err
+	}
+
+	if !slices.Contains(seedersHistory, "RBACRolesAndOwner") {
+		if err := seedRBACDefaults(); err != nil {
+			log.Printf("Error seeding RBAC defaults: %v", err)
+			return err
+		}
+		if err := db.Model(&model.HistoryOfSeeders{}).Pluck("seeder_name", &seedersHistory).Error; err != nil {
+			log.Printf("Error re-fetching seeder history: %v", err)
+			return err
+		}
 	}
 
 	if !slices.Contains(seedersHistory, "UserPasswordHash") && !isUsersEmpty {

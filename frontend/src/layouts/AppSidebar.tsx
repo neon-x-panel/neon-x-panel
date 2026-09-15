@@ -232,6 +232,8 @@ export default function AppSidebar() {
       { key: '/settings', icon: 'setting', title: t('menu.settings') },
       { key: '/xray', icon: 'tool', title: t('menu.xray') },
       { key: '/api-docs', icon: 'apidocs', title: t('menu.apiDocs') },
+      { key: '/admins', icon: 'team', title: t('menu.admins', { defaultValue: 'Admins' }) },
+      { key: '/admin-roles', icon: 'cluster', title: t('menu.adminRoles', { defaultValue: 'Admin Roles' }) },
       { key: LOGOUT_KEY, icon: 'logout', title: t('logout') },
     ],
     [t],

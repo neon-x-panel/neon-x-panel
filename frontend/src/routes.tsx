@@ -1,3 +1,5 @@
+const AdminsPage = lazy(() => import('@/pages/admins/AdminsPage'));
+const AdminRolesPage = lazy(() => import('@/pages/admin-roles/AdminRolesPage'));
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { Spin } from 'antd';
@@ -51,6 +53,8 @@ const routes: RouteObject[] = [
       { path: 'outbound', element: withSuspense(<XrayPage />) },
       { path: 'routing', element: withSuspense(<XrayPage />) },
       { path: 'api-docs', element: withSuspense(<ApiDocsPage />) },
+      { path: 'admins', element: withSuspense(<AdminsPage />) },
+      { path: 'admin-roles', element: withSuspense(<AdminRolesPage />) },
     ],
   },
 ];

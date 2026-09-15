@@ -52,6 +52,10 @@ func (s *UserService) CheckUser(username string, password string, twoFactorCode 
 		return nil, err
 	}
 
+	if user.Status != "" && user.Status != model.AdminStatusActive {
+		return nil, errors.New("admin account is disabled")
+	}
+
 	if !crypto.CheckPasswordHash(user.Password, password) {
 		ldapEnabled, _ := s.settingService.GetLdapEnable()
 		if !ldapEnabled {
@@ -101,6 +105,10 @@ func (s *UserService) CheckUser(username string, password string, twoFactorCode 
 		if !totp.VerifyWithSkew(twoFactorToken, twoFactorCode, time.Now()) {
 			return nil, errors.New("invalid 2fa code")
 		}
+	}
+
+	if err := EnforceLimitedAdminFeatures(user); err != nil {
+		return nil, err
 	}
 
 	return user, nil

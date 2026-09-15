@@ -36,12 +36,40 @@ const (
 	TUIC        Protocol = "tuic"
 )
 
-// User represents a user account in the 3x-ui panel.
+const (
+	AdminStatusActive   = "active"
+	AdminStatusDisabled = "disabled"
+
+	AdminRoleSlugOwner         = "owner"
+	AdminRoleSlugAdministrator = "administrator"
+	AdminRoleSlugOperator      = "operator"
+)
+
+// User represents an administrator account in the panel.
 type User struct {
 	Id         int    `json:"id" gorm:"primaryKey;autoIncrement"`
-	Username   string `json:"username"`
+	Username   string `json:"username" gorm:"uniqueIndex;not null"`
 	Password   string `json:"password"`
 	LoginEpoch int64  `json:"-" gorm:"default:0"`
+
+	RoleId    int    `json:"roleId" gorm:"column:role_id;index;default:0"`
+	Status    string `json:"status" gorm:"default:active;index"`
+	DataLimit int64  `json:"dataLimit" gorm:"column:data_limit;default:0"`
+	UsedBytes int64  `json:"usedBytes" gorm:"column:used_bytes;default:0"`
+
+	TelegramID               string `json:"telegramId" gorm:"column:telegram_id"`
+	DiscordWebhook           string `json:"discordWebhook" gorm:"column:discord_webhook"`
+	SupportURL               string `json:"supportUrl" gorm:"column:support_url"`
+	ProfileTitle             string `json:"profileTitle" gorm:"column:profile_title"`
+	SubscriptionDomain       string `json:"subscriptionDomain" gorm:"column:subscription_domain"`
+	SubscriptionTemplatePath string `json:"subscriptionTemplatePath" gorm:"column:subscription_template_path"`
+	Note                     string `json:"note"`
+
+	NotificationFiltersJSON string `json:"notificationFilters" gorm:"column:notification_filters;type:text"`
+	PermissionOverridesJSON string `json:"permissionOverrides" gorm:"column:permission_overrides;type:text"`
+
+	CreatedAt int64 `json:"createdAt" gorm:"autoCreateTime:milli"`
+	UpdatedAt int64 `json:"updatedAt" gorm:"autoUpdateTime:milli"`
 }
 
 // Inbound represents an Xray inbound configuration with traffic statistics and settings.
@@ -938,6 +966,9 @@ type ClientRecord struct {
 	ExpiryTime      int64  `json:"expiryTime" gorm:"column:expiry_time"`
 	Enable          bool   `json:"enable" gorm:"default:true"`
 	TgID            int64  `json:"tgId" gorm:"column:tg_id;index:idx_clients_tg_id"`
+	OwnerAdminId           int    `json:"ownerAdminId" gorm:"column:owner_admin_id;index;default:0"`
+	DisabledByOwnerAdminId int    `json:"disabledByOwnerAdminId" gorm:"column:disabled_by_owner_admin_id;index;default:0"`
+	CreatedByAdminId       int    `json:"createdByAdminId" gorm:"column:created_by_admin_id;index;default:0"`
 	Group           string `json:"group" gorm:"column:group_name;default:'';index:idx_client_record_group"`
 	Comment         string `json:"comment"`
 	Reset           int    `json:"reset" gorm:"default:0"`
@@ -1498,3 +1529,297 @@ type AdminRole struct {
 }
 
 func (AdminRole) TableName() string { return "admin_roles" }
+
+func DefaultAdminRoles() []AdminRole {
+	return []AdminRole{
+		{
+			Name:            "owner",
+			Slug:            AdminRoleSlugOwner,
+			BuiltIn:         true,
+			OwnerRole:       true,
+			PermissionsJSON: mustRoleJSON(ownerPermissions()),
+			LimitsJSON:      mustRoleJSON(defaultRoleLimits()),
+			FeaturesJSON:    mustRoleJSON(defaultRoleFeatures()),
+			AccessJSON:      mustRoleJSON(allowAllGroupsAccess()),
+		},
+		{
+			Name:            "Administrator",
+			Slug:            AdminRoleSlugAdministrator,
+			BuiltIn:         true,
+			OwnerRole:       false,
+			PermissionsJSON: mustRoleJSON(administratorPermissions()),
+			LimitsJSON:      mustRoleJSON(administratorLimits()),
+			FeaturesJSON:    mustRoleJSON(administratorFeatures()),
+			AccessJSON:      mustRoleJSON(administratorAccess()),
+		},
+		{
+			Name:            "Operator",
+			Slug:            AdminRoleSlugOperator,
+			BuiltIn:         true,
+			OwnerRole:       false,
+			PermissionsJSON: mustRoleJSON(operatorPermissions()),
+			LimitsJSON:      mustRoleJSON(defaultRoleLimits()),
+			FeaturesJSON:    mustRoleJSON(operatorFeatures()),
+			AccessJSON:      mustRoleJSON(allowAllGroupsAccess()),
+		},
+	}
+}
+
+func mustRoleJSON(v any) string {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return "{}"
+	}
+	return string(b)
+}
+
+func ownerPermissions() map[string]any {
+	return map[string]any{
+		"users": map[string]any{
+			"view":               "all",
+			"viewSimpleList":     "all",
+			"create":             true,
+			"update":             "all",
+			"delete":             "all",
+			"resetUsage":         "all",
+			"revokeSubscription": "all",
+			"setOwner":           "all",
+			"activateNextPlan":   "all",
+		},
+		"admins": map[string]any{
+			"view":       true,
+			"viewSimple": true,
+			"create":     true,
+			"update":     true,
+			"delete":     true,
+			"resetUsage": true,
+		},
+		"roles": map[string]any{
+			"view":       true,
+			"viewSimple": true,
+			"create":     true,
+			"update":     true,
+			"delete":     true,
+		},
+		"nodes": map[string]any{
+			"view":           true,
+			"viewSimple":     true,
+			"create":         true,
+			"update":         true,
+			"delete":         true,
+			"reconnect":      true,
+			"updateCore":     true,
+			"viewStatistics": true,
+			"viewLogs":       true,
+		},
+		"cores": map[string]any{
+			"view":       true,
+			"viewSimple": true,
+			"create":     true,
+			"update":     true,
+			"delete":     true,
+		},
+		"hosts": map[string]any{
+			"view":   true,
+			"create": true,
+			"update": true,
+		},
+		"groups": map[string]any{
+			"view":       true,
+			"viewSimple": true,
+			"create":     true,
+			"update":     true,
+			"delete":     true,
+		},
+		"settings": map[string]any{
+			"view":        true,
+			"viewGeneral": true,
+			"update":      true,
+		},
+		"system": map[string]any{
+			"view": true,
+		},
+	}
+}
+
+func administratorPermissions() map[string]any {
+	return allRolePermissions()
+}
+
+func allRolePermissions() map[string]any {
+	return map[string]any{
+		"inbounds": map[string]any{
+			"read":        true,
+			"read_simple": true,
+			"create":      true,
+			"update":      true,
+			"delete":      true,
+			"reset_usage": true,
+		},
+		"users": map[string]any{
+			"read":               map[string]any{"scope": 1},
+			"read_simple":        map[string]any{"scope": 1},
+			"create":             true,
+			"update":             map[string]any{"scope": 1},
+			"delete":             map[string]any{"scope": 1},
+			"reset_usage":        map[string]any{"scope": 1},
+			"revoke_sub":         map[string]any{"scope": 1},
+			"set_owner":          map[string]any{"scope": 1},
+			"activate_next_plan": map[string]any{"scope": 1},
+			"admin_filter":       true,
+		},
+		"groups": map[string]any{
+			"read":        true,
+			"read_simple": true,
+			"create":      true,
+			"update":      true,
+			"delete":      true,
+		},
+		"nodes": map[string]any{
+			"read":        true,
+			"read_simple": true,
+			"create":      true,
+			"update":      true,
+			"delete":      true,
+			"reconnect":   true,
+			"update_core": true,
+			"stats":       true,
+			"logs":        true,
+		},
+		"admins": map[string]any{
+			"read":        true,
+			"read_simple": true,
+			"create":      true,
+			"update":      true,
+			"delete":      true,
+			"reset_usage": true,
+		},
+		"admin_roles": map[string]any{
+			"read":        true,
+			"read_simple": true,
+			"create":      true,
+			"update":      true,
+			"delete":      true,
+		},
+		"outbounds": map[string]any{
+			"read":   true,
+			"create": true,
+			"update": true,
+			"delete": true,
+		},
+		"routing": map[string]any{
+			"read":   true,
+			"create": true,
+			"update": true,
+			"delete": true,
+		},
+		"settings": map[string]any{
+			"read":         true,
+			"read_general": true,
+			"update":       true,
+		},
+		"cores": map[string]any{
+			"read":        true,
+			"read_simple": true,
+			"create":      true,
+			"update":      true,
+			"delete":      true,
+		},
+		"hosts": map[string]any{
+			"read":   true,
+			"create": true,
+			"update": true,
+		},
+		"system": map[string]any{
+			"read": true,
+		},
+	}
+}
+
+func operatorPermissions() map[string]any {
+	return map[string]any{
+		"inbounds": map[string]any{
+			"read_simple": true,
+		},
+		"users": map[string]any{
+			"read":               map[string]any{"scope": 1},
+			"read_simple":        map[string]any{"scope": 1},
+			"create":             true,
+			"update":             map[string]any{"scope": 1},
+			"delete":             map[string]any{"scope": 1},
+			"reset_usage":        map[string]any{"scope": 1},
+			"revoke_sub":         map[string]any{"scope": 1},
+			"set_owner":          map[string]any{"scope": 1},
+			"activate_next_plan": map[string]any{"scope": 1},
+		},
+		"groups": map[string]any{
+			"read_simple": true,
+		},
+		"settings": map[string]any{
+			"read_general": true,
+		},
+	}
+}
+
+func operatorFeatures() map[string]any {
+	return map[string]any{
+		"blockLimitedAdmins":          true,
+		"disconnectUsersWhenLimited":  true,
+		"disconnectUsersWhenDisabled": true,
+		"useResetStrategy":            false,
+		"useNextPlan":                 true,
+		"can_use_reset_strategy":      false,
+		"can_use_next_plan":           true,
+	}
+}
+
+func defaultRoleLimits() map[string]any {
+	return map[string]any{
+		"maxUsers":             nil,
+		"minDataLimit":         nil,
+		"maxDataLimit":         nil,
+		"minExpireDays":        nil,
+		"maxExpireDays":        nil,
+		"minOnHoldTimeoutDays": nil,
+		"maxOnHoldTimeoutDays": nil,
+	}
+}
+
+func administratorLimits() map[string]any {
+	return map[string]any{}
+}
+
+func defaultRoleFeatures() map[string]any {
+	return map[string]any{
+		"blockLimitedAdmins":          false,
+		"disconnectUsersWhenLimited":  true,
+		"disconnectUsersWhenDisabled": true,
+		"useResetStrategy":            true,
+		"useNextPlan":                 true,
+	}
+}
+
+func administratorFeatures() map[string]any {
+	return map[string]any{
+		"blockLimitedAdmins":          true,
+		"disconnectUsersWhenLimited":  true,
+		"disconnectUsersWhenDisabled": true,
+		"useResetStrategy":            true,
+		"useNextPlan":                 true,
+		"can_use_reset_strategy":      true,
+		"can_use_next_plan":           true,
+	}
+}
+
+func allowAllGroupsAccess() map[string]any {
+	return map[string]any{
+		"allowAllGroups": true,
+		"allowedGroups":  []string{},
+	}
+}
+
+func administratorAccess() map[string]any {
+	return map[string]any{
+		"allowed_inbound_ids": nil,
+	}
+}

@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'node:fs';
@@ -203,7 +204,7 @@ const SWAGGER_ONLY_DEPS = [
 ];
 
 export default defineConfig({
-  plugins: [react(), injectBasePathPlugin(), rocketLoaderOptOutPlugin()],
+  plugins: [tailwindcss(), react(), injectBasePathPlugin(), rocketLoaderOptOutPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),
