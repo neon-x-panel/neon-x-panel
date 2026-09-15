@@ -6,12 +6,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/amneziawg"
-	"github.com/mhsanaei/3x-ui/v3/internal/amneziawgnet"
-	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
-	xuilogger "github.com/mhsanaei/3x-ui/v3/internal/logger"
-	"github.com/mhsanaei/3x-ui/v3/internal/util/json_util"
-	"github.com/mhsanaei/3x-ui/v3/internal/xray"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/amneziawg"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/amneziawgnet"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database/model"
+	xuilogger "github.com/neon-x-panel/NEON-X-PANEL/v3/internal/logger"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/util/json_util"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/xray"
 
 	"github.com/op/go-logging"
 )

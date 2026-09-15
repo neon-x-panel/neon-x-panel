@@ -11,7 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
 )
 
 func setupSubBalancerRouter(t *testing.T) *gin.Engine {

@@ -10,8 +10,8 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
-	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database/model"
 )
 
 // seedWarp stores warp credentials (with a Warp Plus license key) in the DB.

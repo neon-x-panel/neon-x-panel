@@ -8,9 +8,9 @@ import (
 
 	"github.com/op/go-logging"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
-	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
-	xuilogger "github.com/mhsanaei/3x-ui/v3/internal/logger"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database/model"
+	xuilogger "github.com/neon-x-panel/NEON-X-PANEL/v3/internal/logger"
 )
 
 var subBalancerLoggerOnce sync.Once

@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
-	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
-	"github.com/mhsanaei/3x-ui/v3/internal/web/runtime"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database/model"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/web/runtime"
 )
 
 func TestCreateAcrossManyInboundsUsesOneEmailSnapshot(t *testing.T) {

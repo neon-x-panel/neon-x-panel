@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
 )
 
 func TestStageSQLiteUploadRebuildsFromDump(t *testing.T) {

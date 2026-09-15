@@ -17,9 +17,9 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
-	"github.com/mhsanaei/3x-ui/v3/internal/util/crypto"
-	"github.com/mhsanaei/3x-ui/v3/internal/util/netsafe"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database/model"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/util/crypto"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/util/netsafe"
 )
 
 type generationProbeTransport struct {

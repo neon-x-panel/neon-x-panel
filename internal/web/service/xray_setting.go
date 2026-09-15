@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/amneziawg"
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
-	"github.com/mhsanaei/3x-ui/v3/internal/util/common"
-	"github.com/mhsanaei/3x-ui/v3/internal/xray"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/amneziawg"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/util/common"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/xray"
 )
 
 // XraySettingService provides business logic for Xray configuration management.

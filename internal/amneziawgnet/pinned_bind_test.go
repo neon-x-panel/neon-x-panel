@@ -9,7 +9,7 @@ import (
 
 	awgconn "github.com/amnezia-vpn/amneziawg-go/v3/conn"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/amneziawg"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/amneziawg"
 )
 
 func TestParseListenAddr(t *testing.T) {

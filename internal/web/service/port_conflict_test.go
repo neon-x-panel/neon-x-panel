@@ -8,10 +8,10 @@ import (
 
 	"github.com/op/go-logging"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/amneziawgnet"
-	"github.com/mhsanaei/3x-ui/v3/internal/database"
-	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
-	xuilogger "github.com/mhsanaei/3x-ui/v3/internal/logger"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/amneziawgnet"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/database/model"
+	xuilogger "github.com/neon-x-panel/NEON-X-PANEL/v3/internal/logger"
 )
 
 // the panel logger is a process-wide singleton. init it once per test

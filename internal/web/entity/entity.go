@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v3/internal/util/common"
+	"github.com/neon-x-panel/NEON-X-PANEL/v3/internal/util/common"
 )
 
 type Msg struct {
