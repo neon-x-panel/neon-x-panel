@@ -5,6 +5,8 @@
 .settings-page,
 .nodes-page,
 .groups-page,
+.admins-page,
+.admin-roles-page,
 .api-docs-page {
   --bg-page: #e6e8ec;
   --bg-card: #ffffff;
@@ -19,6 +21,8 @@
 .settings-page.is-dark,
 .nodes-page.is-dark,
 .groups-page.is-dark,
+.admins-page.is-dark,
+.admin-roles-page.is-dark,
 .api-docs-page.is-dark {
   --bg-page: #1a1b1f;
   --bg-card: #23252b;
@@ -31,6 +35,8 @@
 .settings-page.is-dark.is-ultra,
 .nodes-page.is-dark.is-ultra,
 .groups-page.is-dark.is-ultra,
+.admins-page.is-dark.is-ultra,
+.admin-roles-page.is-dark.is-ultra,
 .api-docs-page.is-dark.is-ultra {
   --bg-page: #000;
   --bg-card: #101013;
@@ -50,6 +56,10 @@
 .nodes-page .ant-layout-content,
 .groups-page .ant-layout,
 .groups-page .ant-layout-content,
+.admins-page .ant-layout,
+.admins-page .ant-layout-content,
+.admin-roles-page .ant-layout,
+.admin-roles-page .ant-layout-content,
 .api-docs-page .ant-layout,
 .api-docs-page .ant-layout-content {
   background: transparent;
@@ -62,6 +72,8 @@
 .settings-page .content-shell,
 .nodes-page .content-shell,
 .groups-page .content-shell,
+.admins-page .content-shell,
+.admin-roles-page .content-shell,
 .api-docs-page .content-shell {
   background: transparent;
 }
@@ -72,7 +84,9 @@
 .xray-page .content-area,
 .settings-page .content-area,
 .nodes-page .content-area,
-.groups-page .content-area {
+.groups-page .content-area,
+.admins-page .content-area,
+.admin-roles-page .content-area {
   padding: 24px;
 }
 
@@ -80,7 +94,9 @@
   .clients-page .content-area,
   .inbounds-page .content-area,
   .nodes-page .content-area,
-  .groups-page .content-area {
+  .groups-page .content-area,
+  .admins-page .content-area,
+  .admin-roles-page .content-area {
     padding: 8px;
   }
 }
