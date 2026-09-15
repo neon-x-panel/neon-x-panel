@@ -484,3 +484,24 @@
 .submit-row {
   margin-bottom: 0;
 }
+
+/* Neon purple rain / particle effect */
+.login-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(0deg, transparent 0%, rgba(168, 85, 247, 0.15) 50%, transparent 100%),
+                    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.1) 0%, transparent 60%);
+  background-size: 100% 200px;
+  animation: neon-rain 3s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes neon-rain {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 200px; }
+}
