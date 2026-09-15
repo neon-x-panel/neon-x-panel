@@ -48,12 +48,20 @@ body.dark::after {
   animation: neon-panel-b 22s ease-in-out infinite alternate;
 }
 @keyframes neon-panel-a {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(12vw, 9vh) scale(1.2); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(12vw, 9vh) scale(1.2);
+  }
 }
 @keyframes neon-panel-b {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-11vw, -8vh) scale(1.18); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-11vw, -8vh) scale(1.18);
+  }
 }
 
 /* keep layout transparent so neon bg shows through */
@@ -68,7 +76,10 @@ body.dark .ant-card {
   background: var(--neon-card) !important;
   border: 1px solid var(--neon-border) !important;
   border-radius: 16px !important;
-  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.1), 0 0 30px rgba(168, 85, 247, 0.18), 0 18px 50px rgba(0, 0, 0, 0.5) !important;
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.1),
+    0 0 30px rgba(168, 85, 247, 0.18),
+    0 18px 50px rgba(0, 0, 0, 0.5) !important;
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   backdrop-filter: blur(18px) saturate(160%);
 }
@@ -84,10 +95,14 @@ body.dark .ant-statistic-title {
 body.dark .ant-btn-primary {
   background: linear-gradient(100deg, #7c3aed, #a855f7 55%, #0891b2) !important;
   border: none !important;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  box-shadow:
+    0 0 20px rgba(168, 85, 247, 0.5),
+    0 8px 24px rgba(0, 0, 0, 0.4) !important;
 }
 body.dark .ant-btn-primary:hover {
-  box-shadow: 0 0 32px rgba(168, 85, 247, 0.75), 0 0 60px rgba(34, 211, 238, 0.28) !important;
+  box-shadow:
+    0 0 32px rgba(168, 85, 247, 0.75),
+    0 0 60px rgba(34, 211, 238, 0.28) !important;
 }
 
 /* neon sider + header */
@@ -128,7 +143,9 @@ body.dark .ant-input:focus,
 body.dark .ant-input-focused,
 body.dark .ant-input-password:focus {
   border-color: #a855f7 !important;
-  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25), 0 0 20px rgba(168, 85, 247, 0.35) !important;
+  box-shadow:
+    0 0 0 2px rgba(168, 85, 247, 0.25),
+    0 0 20px rgba(168, 85, 247, 0.35) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -145,7 +162,13 @@ body.dark .drawer-menu .ant-menu-item .ant-menu-title-content,
 body.dark .drawer-menu .ant-menu-submenu-title .ant-menu-title-content,
 body.dark .drawer-brand,
 body.dark .sider-brand .brand-block {
-  background: linear-gradient(100deg, #e9d5ff 0%, #a855f7 30%, #22d3ee 65%, #e9d5ff 100%) !important;
+  background: linear-gradient(
+    100deg,
+    #e9d5ff 0%,
+    #a855f7 30%,
+    #22d3ee 65%,
+    #e9d5ff 100%
+  ) !important;
   background-size: 220% auto !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
@@ -153,12 +176,17 @@ body.dark .sider-brand .brand-block {
   color: transparent !important;
   font-weight: 700 !important;
   letter-spacing: 0.5px;
-  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.55)) drop-shadow(0 0 22px rgba(34, 211, 238, 0.2));
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.55))
+    drop-shadow(0 0 22px rgba(34, 211, 238, 0.2));
   animation: neon-brand-shine 5s linear infinite;
 }
 @keyframes neon-brand-shine {
-  0% { background-position: 0% center; }
-  100% { background-position: 220% center; }
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 220% center;
+  }
 }
 /* keep icons glowing neon too */
 body.dark .sider-nav .ant-menu-item .anticon,

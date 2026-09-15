@@ -9,6 +9,8 @@
     "node_modules",
     "src/generated",
     "public",
-    "tools/oxlint/__fixtures__"
+    "tools/oxlint/__fixtures__",
+    "src/pg-ui",
+    "src/pg-ui/**"
   ]
 }
