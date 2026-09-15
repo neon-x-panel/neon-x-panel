@@ -137,3 +137,44 @@ body.dark .ant-input-password:focus {
     animation: none;
   }
 }
+
+/* ==== sidebar / drawer menu text like login NEON X PANEL brand ==== */
+body.dark .sider-nav .ant-menu-item .ant-menu-title-content,
+body.dark .sider-utility .ant-menu-item .ant-menu-title-content,
+body.dark .drawer-menu .ant-menu-item .ant-menu-title-content,
+body.dark .drawer-menu .ant-menu-submenu-title .ant-menu-title-content,
+body.dark .drawer-brand,
+body.dark .sider-brand .brand-block {
+  background: linear-gradient(100deg, #e9d5ff 0%, #a855f7 30%, #22d3ee 65%, #e9d5ff 100%) !important;
+  background-size: 220% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.55)) drop-shadow(0 0 22px rgba(34, 211, 238, 0.2));
+  animation: neon-brand-shine 5s linear infinite;
+}
+@keyframes neon-brand-shine {
+  0% { background-position: 0% center; }
+  100% { background-position: 220% center; }
+}
+/* keep icons glowing neon too */
+body.dark .sider-nav .ant-menu-item .anticon,
+body.dark .sider-utility .ant-menu-item .anticon,
+body.dark .drawer-menu .ant-menu-item .anticon {
+  color: #c084fc !important;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
+}
+body.dark .sider-nav .ant-menu-item-selected .anticon,
+body.dark .drawer-menu .ant-menu-item-selected .anticon {
+  color: #22d3ee !important;
+  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.9));
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dark .sider-nav .ant-menu-item .ant-menu-title-content,
+  body.dark .drawer-menu .ant-menu-item .ant-menu-title-content {
+    animation: none;
+  }
+}
