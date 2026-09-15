@@ -1482,3 +1482,19 @@ func MergeClientRecord(existing *ClientRecord, incoming *ClientRecord) []ClientM
 	}
 	return conflicts
 }
+
+type AdminRole struct {
+	Id              int    `json:"id" gorm:"primaryKey;autoIncrement"`
+	Name            string `json:"name" gorm:"uniqueIndex;not null"`
+	Slug            string `json:"slug" gorm:"uniqueIndex;not null"`
+	BuiltIn         bool   `json:"builtIn" gorm:"column:built_in;default:false"`
+	OwnerRole       bool   `json:"ownerRole" gorm:"column:owner_role;default:false"`
+	PermissionsJSON string `json:"permissions" gorm:"column:permissions;type:text"`
+	LimitsJSON      string `json:"limits" gorm:"column:limits;type:text"`
+	FeaturesJSON    string `json:"features" gorm:"column:features;type:text"`
+	AccessJSON      string `json:"access" gorm:"column:access;type:text"`
+	CreatedAt       int64  `json:"createdAt" gorm:"autoCreateTime:milli"`
+	UpdatedAt       int64  `json:"updatedAt" gorm:"autoUpdateTime:milli"`
+}
+
+func (AdminRole) TableName() string { return "admin_roles" }
