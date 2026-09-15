@@ -505,3 +505,98 @@
   0% { background-position: 0 0; }
   100% { background-position: 0 200px; }
 }
+
+/* ==== eye-catching animated form elements (login only) ==== */
+
+/* staggered entrance for each field */
+.login-form .ant-form-item {
+  animation: field-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.login-form .ant-form-item:nth-of-type(1) { animation-delay: 0.15s; }
+.login-form .ant-form-item:nth-of-type(2) { animation-delay: 0.28s; }
+.login-form .ant-form-item:nth-of-type(3) { animation-delay: 0.41s; }
+.login-form .submit-row { animation-delay: 0.54s; }
+
+@keyframes field-rise {
+  0% { opacity: 0; transform: translateY(18px) scale(0.98); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* glowing animated labels */
+.login-form .ant-form-item-label > label {
+  color: #d8b4fe !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.4px;
+  animation: label-glow 3s ease-in-out infinite alternate;
+}
+@keyframes label-glow {
+  0% { text-shadow: 0 0 6px rgba(168, 85, 247, 0.35); }
+  100% { text-shadow: 0 0 16px rgba(168, 85, 247, 0.8), 0 0 34px rgba(34, 211, 238, 0.35); }
+}
+
+/* inputs: breathing neon border */
+.login-form .ant-input,
+.login-form .ant-input-password {
+  animation: input-breathe 3.2s ease-in-out infinite alternate;
+}
+@keyframes input-breathe {
+  0% { box-shadow: 0 0 0 rgba(168, 85, 247, 0); }
+  100% { box-shadow: 0 0 18px rgba(168, 85, 247, 0.35), inset 0 0 12px rgba(168, 85, 247, 0.08); }
+}
+.login-form .ant-input:focus,
+.login-form .ant-input-focused,
+.login-form .ant-input-password:focus,
+.login-form .ant-input-password-focused {
+  animation: input-focus-pulse 1.6s ease-in-out infinite alternate;
+}
+@keyframes input-focus-pulse {
+  0% { box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25), 0 0 18px rgba(168, 85, 247, 0.4) !important; }
+  100% { box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.35), 0 0 32px rgba(34, 211, 238, 0.55), 0 0 60px rgba(168, 85, 247, 0.35) !important; }
+}
+
+/* LOGIN button: flowing gradient + travelling shine sweep */
+.login-form .ant-btn-primary {
+  position: relative;
+  overflow: hidden;
+  animation: btn-glow 2.4s ease-in-out infinite alternate;
+}
+@keyframes btn-glow {
+  0% { box-shadow: 0 0 22px rgba(168, 85, 247, 0.55), 0 8px 28px rgba(0,0,0,0.45) !important; }
+  100% { box-shadow: 0 0 40px rgba(168, 85, 247, 0.9), 0 0 80px rgba(34, 211, 238, 0.4), 0 8px 28px rgba(0,0,0,0.45) !important; }
+}
+.login-form .ant-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: skewX(-20deg);
+  animation: btn-shine 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes btn-shine {
+  0% { left: -80%; }
+  60%, 100% { left: 130%; }
+}
+
+/* welcome word: soft neon flicker-in */
+.welcome b {
+  animation: welcome-glow 2.2s ease-in-out infinite alternate, headline-in 280ms ease both !important;
+}
+@keyframes welcome-glow {
+  0% { text-shadow: 0 0 12px rgba(168, 85, 247, 0.4); }
+  100% { text-shadow: 0 0 26px rgba(168, 85, 247, 0.9), 0 0 60px rgba(34, 211, 238, 0.4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-form .ant-form-item,
+  .login-form .ant-form-item-label > label,
+  .login-form .ant-input,
+  .login-form .ant-btn-primary,
+  .login-form .ant-btn-primary::after,
+  .welcome b {
+    animation: none;
+  }
+}
